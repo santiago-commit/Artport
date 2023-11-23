@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.artport.artport.domain.entities.User;
 import com.artport.artport.services.UserService;
 
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
