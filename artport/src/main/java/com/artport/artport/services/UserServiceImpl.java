@@ -1,7 +1,6 @@
 package com.artport.artport.services;
 
 import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import com.artport.artport.domain.entities.User;
@@ -28,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUser(Long id) {
-		return userRepository.getReferenceById(id);
+		return userRepository.findById(id).orElse(null);
 	}
 
 }
