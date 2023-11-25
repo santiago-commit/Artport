@@ -1,0 +1,18 @@
+GET  /users/             -> returns all the users of the database as a JSON object
+GET  /users/{user_id}    -> returns the user of the database with the specified id as a JSON object
+POST  /users/            -> creates a new user on the database, using the JSON object specified on the body, which must have 3 properties, "username", "email" and "password"
+PUT  /users/{user_id}    -> updates an user on the database, using the JSON object specified on the body, which can have 3 properties, "username", "email" and "password"
+DELETE  /users/{user_id} -> deletes the user of the database with the specified id
+
+GET  /posts/             -> returns all the posts of the database as a JSON object
+GET  /posts/{post_id}    -> returns the post of the database with the specified id as a JSON object
+PUT  /posts/{post_id}    -> updates a post on the database, using the JSON object specified on the body, which can have n properties
+DELETE  /posts/          -> deletes all the posts of the database
+DELETE  /posts/{post_id} -> deletes the post of the database with the specified id
+
+GET  users/{user_id}/posts/             -> returns all the posts of the database of the user specified with the id as a JSON object
+GET  users/{user_id}/posts/{post_id}    -> returns the post of the database with the specified id's as a JSON object
+POST  users/{user_id}/posts/            -> creates a new post on the database, using the JSON object specified on the body, which must have n properties
+PUT  users/{user_id}/posts/{post_id}    -> updates a post on the database, using the JSON object specified on the body, which can have n properties
+DELETE  users/{user_id}/posts/          -> deletes all the posts of the database created by the user with the specified id
+DELETE  users/{user_id}/posts/{post_id} -> deletes the post of the database with the specified id created by the user with the specified id
