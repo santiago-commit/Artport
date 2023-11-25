@@ -5,11 +5,15 @@ import java.util.List;
 import com.artport.artport.domain.entities.User;
 
 public interface UserService {
-
-	User createUser(User user);
+	
+	List<User> getUsers();
 	
 	User getUser(Long id);
 
-	List<User> getUsers();
+	User createUser(User user);
+	
+	User updateUser(Long id, User user);
+	
+	void deleteUser(Long id);
 	
 }

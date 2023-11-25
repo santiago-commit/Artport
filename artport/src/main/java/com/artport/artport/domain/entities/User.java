@@ -23,7 +23,6 @@ public class User {
 	private String username;
 	private String email;
 	private String password;
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Short hierarchy = 0;
 	
 	public Long getId() {
