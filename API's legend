@@ -7,7 +7,6 @@ DELETE  /users/{user_id} -> deletes the user of the database with the specified 
 GET  /posts/             -> returns all the posts of the database as a JSON object
 GET  /posts/{post_id}    -> returns the post of the database with the specified id as a JSON object
 PUT  /posts/{post_id}    -> updates a post on the database, using the JSON object specified on the body, which can have n properties
-DELETE  /posts/          -> deletes all the posts of the database
 DELETE  /posts/{post_id} -> deletes the post of the database with the specified id
 
 GET  users/{user_id}/posts/             -> returns all the posts of the database of the user specified with the id as a JSON object
