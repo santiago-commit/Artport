@@ -5,16 +5,20 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.artport.artport.domain.entities.Post;
 import com.artport.artport.domain.entities.User;
+import com.artport.artport.repositories.PostRepository;
 import com.artport.artport.repositories.UserRepository;
 
 @Component
 public class UserServiceImpl implements UserService {
 	
 	private UserRepository userRepository;
+	private PostRepository postRepository;
 	
-	public UserServiceImpl(UserRepository userRepository) {
+	public UserServiceImpl(UserRepository userRepository, PostRepository postRepository) {
 		this.userRepository = userRepository;
+		this.postRepository = postRepository;
 	}
 
 	@Override
@@ -55,6 +59,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteUser(Long id) {
 		userRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Post> getPostsByUserId(Long id) {
+		return postRepository.findByUserId(id);
+	}
+
+	@Override
+	public Post getPostByUserId(Long id, Long postId) {
+		return postRepository.findByUserId(id, postId);
 	}
 
 }
