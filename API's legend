@@ -14,4 +14,3 @@ GET  users/{user_id}/posts/{post_id}    -> returns the post of the database with
 POST  users/{user_id}/posts/            -> creates a new post on the database, using the JSON object specified on the body, which must have n properties
 PUT  users/{user_id}/posts/{post_id}    -> updates a post on the database, using the JSON object specified on the body, which can have n properties
 DELETE  users/{user_id}/posts/          -> deletes all the posts of the database created by the user with the specified id
-DELETE  users/{user_id}/posts/{post_id} -> deletes the post of the database with the specified id created by the user with the specified id
