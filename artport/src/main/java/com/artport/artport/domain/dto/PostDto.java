@@ -11,16 +11,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PostDto {
 
-	private Long id;
+	private Long postId;
 	private User user;
 	private String title;
 	private String description;
 	
 	public Long getId() {
-		return id;
+		return postId;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(Long postId) {
+		this.postId = postId;
 	}
 	public User getUser() {
 		return user;

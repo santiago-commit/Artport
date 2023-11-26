@@ -28,18 +28,18 @@ public class PostController {
 		return postService.getPosts();
 	}
 	
-	@GetMapping("/{id}")
-	public Post getPost(@PathVariable Long id) {
-		return postService.getPost(id);
+	@GetMapping("/{postId}")
+	public Post getPost(@PathVariable Long postId) {
+		return postService.getPost(postId);
 	}
 	
-	@PutMapping("/{id}")
-	public Post updatePost(@PathVariable Long id, @RequestBody Post post) {
-		return postService.updatePost(id, post);
+	@PutMapping("/{postId}")
+	public Post updatePost(@PathVariable Long postId, @RequestBody Post post) {
+		return postService.updatePost(postId, post);
 	}
 	
-	@DeleteMapping("/{id}")
-	public void deletePost(@PathVariable Long id) {
-		postService.deletePost(id);
+	@DeleteMapping("/{postId}")
+	public void deletePost(@PathVariable Long postId) {
+		postService.deletePost(postId);
 	}
 }

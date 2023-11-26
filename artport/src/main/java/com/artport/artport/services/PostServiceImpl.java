@@ -3,9 +3,12 @@ package com.artport.artport.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+
 import com.artport.artport.domain.entities.Post;
 import com.artport.artport.repositories.PostRepository;
 
+@Component
 public class PostServiceImpl implements PostService {
 	
 	PostRepository postRepository;
@@ -20,8 +23,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post getPost(Long id) {
-		return postRepository.getReferenceById(id);
+	public Post getPost(Long postId) {
+		return postRepository.getReferenceById(postId);
 	}
 
 	@Override
@@ -30,8 +33,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post updatePost(Long id, Post post) {
-		Optional<Post> optionalPost = postRepository.findById(id);
+	public Post updatePost(Long postId, Post post) {
+		Optional<Post> optionalPost = postRepository.findById(postId);
         if (optionalPost.isPresent()) {
             Post originalPost = optionalPost.get();
             // Update the necessary properties of the post object
@@ -48,8 +51,8 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public void deletePost(Long id) {
-		postRepository.deleteById(id);
+	public void deletePost(Long postId) {
+		postRepository.deleteById(postId);
 	}
 
 }

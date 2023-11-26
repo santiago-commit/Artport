@@ -27,8 +27,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User getUser(Long id) {
-		return userRepository.findById(id).orElse(null);
+	public User getUser(Long userId) {
+		return userRepository.findById(userId).orElse(null);
 	}
 	
 	@Override
@@ -37,8 +37,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User updateUser(Long id, User user) {
-		Optional<User> optionalUser = userRepository.findById(id);
+	public User updateUser(Long userId, User user) {
+		Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User originalUser = optionalUser.get();
             // Update the necessary properties of the user object
@@ -57,23 +57,23 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(Long id) {
-		userRepository.deleteById(id);
+	public void deleteUser(Long userId) {
+		userRepository.deleteById(userId);
 	}
 
 	@Override
-	public List<Post> getPostsByUserId(Long id) {
-		return postRepository.findByUserId(id);
+	public List<Post> getPostsByUserId(Long userId) {
+		return postRepository.findByUserId(userId);
 	}
 
 	@Override
-	public Post getPostByUserId(Long id, Long postId) {
-		return postRepository.findByUserId(id, postId);
+	public Post getPostByUserId(Long userId, Long postId) {
+		return postRepository.findByUserIdAndPostId(userId, postId);
 	}
 
 	@Override
-	public Post createPost(Long id, Post post) {
-		Optional<User> optionalUser = userRepository.findById(id);
+	public Post createPost(Long userId, Post post) {
+		Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User originalUser = optionalUser.get();
             // Update the necessary properties of the post object
@@ -89,16 +89,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Post updatePost(Long id, Long postId, Post post) {
-        Post originalPost = postRepository.getReferenceById(id);
-        originalPost.setTitle(post.getTitle());
-        originalPost.setDescription(post.getDescription());
-		return postRepository.save(originalPost);
-	}
-
-	@Override
-	public void deletePosts(Long id) {
-		postRepository.deleteAllByUserId(id);
+	public void deletePosts(Long userId) {
+		postRepository.deleteAllByUserId(userId);
 	}
 
 }

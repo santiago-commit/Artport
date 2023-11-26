@@ -9,17 +9,17 @@ import lombok.Builder;
 @Builder
 public class UserDto {
 
-	private Long id;
+	private Long userId;
 	private String username;
 	private String email;
 	private String password;
 	private Short hierarchy = 0;
 	
 	public Long getId() {
-		return id;
+		return userId;
 	}
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(Long userId) {
+		this.userId = userId;
 	}
 	public String getUsername() {
 		return username;

@@ -30,9 +30,9 @@ public class UserController {
 		return userService.getUsers();
 	}
 	
-	@GetMapping("/{id}")
-	public User getUser(@PathVariable Long id) {
-		return userService.getUser(id);
+	@GetMapping("/{userId}")
+	public User getUser(@PathVariable Long userId) {
+		return userService.getUser(userId);
 	}
 	
 	@PostMapping
@@ -40,40 +40,35 @@ public class UserController {
 		return userService.createUser(user);
 	}
 	
-	@PutMapping("/{id}")
-	public User updateUser(@PathVariable Long id, @RequestBody User user) {
-		return userService.updateUser(id, user);
+	@PutMapping("/{userId}")
+	public User updateUser(@PathVariable Long userId, @RequestBody User user) {
+		return userService.updateUser(userId, user);
 	}
 	
-	@DeleteMapping("/{id}")
-	public void deleteUser(@PathVariable Long id) {
-		userService.deleteUser(id);
+	@DeleteMapping("/{userId}")
+	public void deleteUser(@PathVariable Long userId) {
+		userService.deleteUser(userId);
 	}
 	
 	//POSTS HANDLING
-	@GetMapping("/{id}/posts")
-	public void getPosts(@PathVariable Long id) {
-		userService.getPostsByUserId(id);
+	@GetMapping("/{userId}/posts")
+	public void getPosts(@PathVariable Long userId) {
+		userService.getPostsByUserId(userId);
 	}
 	
-	@GetMapping("/{id}/posts/{postId}")
-	public void getPostsById(@PathVariable Long id, @PathVariable Long postId) {
-		userService.getPostByUserId(id, postId);
+	@GetMapping("/{userId}/posts/{postId}")
+	public void getPostsById(@PathVariable Long userId, @PathVariable Long postId) {
+		userService.getPostByUserId(userId, postId);
 	}
 
-	@PostMapping("/{id}/posts")
-	public void createPost(@PathVariable Long id, @RequestBody Post post) {
-		userService.createPost(id, post);
+	@PostMapping("/{userId}/posts")
+	public void createPost(@PathVariable Long userId, @RequestBody Post post) {
+		userService.createPost(userId, post);
 	}
 	
-	@PutMapping("/{id}/posts/{postId}")
-	public void updatePost(@PathVariable Long id, @PathVariable Long postId, @RequestBody Post post) {
-		userService.updatePost(id, postId, post);
-	}
-	
-	@DeleteMapping("/{id}/posts")
-	public void deletePosts(@PathVariable Long id) {
-		userService.deletePosts(id);
+	@DeleteMapping("/{userId}/posts")
+	public void deletePosts(@PathVariable Long userId) {
+		userService.deletePosts(userId);
 	}
 
 }

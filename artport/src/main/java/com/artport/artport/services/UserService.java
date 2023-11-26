@@ -9,23 +9,21 @@ public interface UserService {
 	
 	List<User> getUsers();
 	
-	User getUser(Long id);
+	User getUser(Long userId);
 
 	User createUser(User user);
 	
-	User updateUser(Long id, User user);
+	User updateUser(Long userId, User user);
 	
-	void deleteUser(Long id);
+	void deleteUser(Long userId);
 
 
-	List<Post> getPostsByUserId(Long id);
+	List<Post> getPostsByUserId(Long userId);
 	
-	Post getPostByUserId(Long id, Long postId);
+	Post getPostByUserId(Long userId, Long postId);
 	
-	Post createPost(Long id, Post post);
+	Post createPost(Long userId, Post post);
 	
-	Post updatePost(Long id, Long postId, Post post);
-	
-	void deletePosts(Long id);
+	void deletePosts(Long userId);
 	
 }
