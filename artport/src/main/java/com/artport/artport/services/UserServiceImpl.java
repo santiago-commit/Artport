@@ -71,4 +71,34 @@ public class UserServiceImpl implements UserService {
 		return postRepository.findByUserId(id, postId);
 	}
 
+	@Override
+	public Post createPost(Long id, Post post) {
+		Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User originalUser = optionalUser.get();
+            // Update the necessary properties of the post object
+            post.setUser(originalUser);
+            // Save the updated post object
+            // User savedPost = userRepository.save(post);
+            // return ResponseEntity.ok(savedPost);
+        } else {
+            // return ResponseEntity.notFound().build();
+        }
+        
+		return postRepository.save(post);
+	}
+
+	@Override
+	public Post updatePost(Long id, Long postId, Post post) {
+        Post originalPost = postRepository.getReferenceById(id);
+        originalPost.setTitle(post.getTitle());
+        originalPost.setDescription(post.getDescription());
+		return postRepository.save(originalPost);
+	}
+
+	@Override
+	public void deletePosts(Long id) {
+		postRepository.deleteAllByUserId(id);
+	}
+
 }

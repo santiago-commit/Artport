@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.artport.artport.domain.entities.Post;
 import com.artport.artport.domain.entities.User;
 import com.artport.artport.services.UserService;
 
@@ -58,6 +59,21 @@ public class UserController {
 	@GetMapping("/{id}/posts/{postId}")
 	public void getPostsById(@PathVariable Long id, @PathVariable Long postId) {
 		userService.getPostByUserId(id, postId);
+	}
+
+	@PostMapping("/{id}/posts")
+	public void createPost(@PathVariable Long id, @RequestBody Post post) {
+		userService.createPost(id, post);
+	}
+	
+	@PutMapping("/{id}/posts/{postId}")
+	public void updatePost(@PathVariable Long id, @PathVariable Long postId, @RequestBody Post post) {
+		userService.updatePost(id, postId, post);
+	}
+	
+	@DeleteMapping("/{id}/posts")
+	public void deletePosts(@PathVariable Long id) {
+		userService.deletePosts(id);
 	}
 
 }

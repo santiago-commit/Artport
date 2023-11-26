@@ -22,4 +22,10 @@ public interface UserService {
 	
 	Post getPostByUserId(Long id, Long postId);
 	
+	Post createPost(Long id, Post post);
+	
+	Post updatePost(Long id, Long postId, Post post);
+	
+	void deletePosts(Long id);
+	
 }
