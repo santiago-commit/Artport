@@ -1,11 +1,15 @@
 package com.artport.artport.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
+import com.artport.artport.domain.dto.PostDTO;
+import com.artport.artport.domain.dto.UserDTO;
 import com.artport.artport.domain.entities.Post;
+import com.artport.artport.domain.entities.User;
 import com.artport.artport.repositories.PostRepository;
 
 @Component
@@ -23,13 +27,11 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post getPost(Long postId) {
-		return postRepository.getReferenceById(postId);
-	}
-
-	@Override
-	public Post createPost(Post post) {
-		return postRepository.save(post);
+	public PostDTO getPost(Long postId) {
+		Post post = postRepository.getReferenceById(postId);
+		User user = post.getUser();
+		UserDTO userDto = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getHierarchy());
+		return new PostDTO(post.getId(), userDto, post.getTitle(), post.getDescription());
 	}
 
 	@Override
@@ -37,22 +39,42 @@ public class PostServiceImpl implements PostService {
 		Optional<Post> optionalPost = postRepository.findById(postId);
         if (optionalPost.isPresent()) {
             Post originalPost = optionalPost.get();
-            // Update the necessary properties of the post object
-            originalPost.setTitle(post.getTitle());
-            originalPost.setDescription(post.getDescription());
-            // Save the updated post object
-            // Post savedPost = postRepository.save(post);
-            // return ResponseEntity.ok(savedPost);
-        } else {
-            // return ResponseEntity.notFound().build();
+            
+            if (post.getTitle() != null)
+            	originalPost.setTitle(post.getTitle());
+            
+            if (post.getDescription() != null)
+            	originalPost.setDescription(post.getDescription());
+
+            if (isValidPost(originalPost))
+                return postRepository.save(originalPost);
+            else
+                throw new IllegalArgumentException("Invalid post data");
         }
-        
-		return postRepository.save(post);
+        else
+        	throw new NoSuchElementException("Post not found");
 	}
 
 	@Override
-	public void deletePost(Long postId) {
-		postRepository.deleteById(postId);
+	public boolean deletePost(Long postId) {
+		Optional<Post> postOptional = postRepository.findById(postId);
+	    if (postOptional.isPresent()) {
+	        postRepository.delete(postOptional.get());
+	        return true;
+	    } 
+	    else
+	        throw new NoSuchElementException("Post not found");
+	}
+	
+	private boolean isValidPost(Post post) {
+		if (post == null || post.getTitle() == null || post.getDescription() == null || post.getId() == null || post.getUser() == null)
+	        return false;
+		else if (post.getTitle().isEmpty() || post.getDescription().isEmpty())
+	        return false;
+		else if (post.getTitle().length() > 50 || post.getDescription().length() > 2000)
+	    	return false;
+
+	    return true;
 	}
 
 }

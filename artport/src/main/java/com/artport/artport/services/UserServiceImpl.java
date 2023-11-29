@@ -1,6 +1,7 @@
 package com.artport.artport.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Component;
@@ -28,12 +29,19 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUser(Long userId) {
-		return userRepository.findById(userId).orElse(null);
+		Optional<User> optionalUser = userRepository.findById(userId);
+		if (optionalUser.isPresent())
+			return optionalUser.get();
+        else
+        	throw new NoSuchElementException("Invalid user ID provided");
 	}
 	
 	@Override
 	public User createUser(User user) {
-		return userRepository.save(user);
+		if (isValidUser(user))
+			return userRepository.save(user);
+		else
+			throw new IllegalArgumentException("Invalid user data");
 	}
 
 	@Override
@@ -41,34 +49,44 @@ public class UserServiceImpl implements UserService {
 		Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User originalUser = optionalUser.get();
-            // Update the necessary properties of the user object
-            originalUser.setUsername(user.getUsername());
-            originalUser.setEmail(user.getEmail());
-            originalUser.setPassword(user.getPassword());
-            originalUser.setHierarchy(user.getHierarchy());
-            // Save the updated user object
-            // User savedUser = userRepository.save(user);
-            // return ResponseEntity.ok(savedUser);
-        } else {
-            // return ResponseEntity.notFound().build();
+            
+            if (user.getUsername() != null)
+            	originalUser.setUsername(user.getUsername());
+            
+            if (user.getEmail() != null)
+            	originalUser.setEmail(user.getEmail());
+            
+            if (user.getPassword() != null)
+            	originalUser.setPassword(user.getPassword());
+            
+            if (user.getHierarchy() != null)
+            	originalUser.setHierarchy(user.getHierarchy());
+            
+            if (isValidUser(originalUser))
+                return userRepository.save(originalUser);
+            else
+                throw new IllegalArgumentException("Invalid post data");
         }
-        
-		return userRepository.save(user);
+        else
+        	throw new NoSuchElementException("User not found");
 	}
 
 	@Override
 	public void deleteUser(Long userId) {
-		userRepository.deleteById(userId);
+		Optional<User> userOptional = userRepository.findById(userId);
+	    if (userOptional.isPresent())
+	        userRepository.delete(userOptional.get());
+	    else
+	        throw new NoSuchElementException("User not found");
 	}
 
 	@Override
 	public List<Post> getPostsByUserId(Long userId) {
-		return postRepository.findByUserId(userId);
-	}
-
-	@Override
-	public Post getPostByUserId(Long userId, Long postId) {
-		return postRepository.findByUserIdAndPostId(userId, postId);
+		Optional<User> optionalUser = userRepository.findById(userId);
+		if (optionalUser.isPresent())
+			return postRepository.findByUserId(userId);
+        else
+        	throw new NoSuchElementException("Invalid user ID provided");
 	}
 
 	@Override
@@ -76,21 +94,45 @@ public class UserServiceImpl implements UserService {
 		Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User originalUser = optionalUser.get();
-            // Update the necessary properties of the post object
             post.setUser(originalUser);
-            // Save the updated post object
-            // User savedPost = userRepository.save(post);
-            // return ResponseEntity.ok(savedPost);
-        } else {
-            // return ResponseEntity.notFound().build();
-        }
-        
-		return postRepository.save(post);
-	}
 
+            if (isValidPost(post))
+            	return postRepository.save(post);
+            else
+            	throw new IllegalArgumentException("Invalid post data");
+        }
+        else
+        	throw new NoSuchElementException("Invalid user ID provided");
+	}
+	
 	@Override
 	public void deletePosts(Long userId) {
-		postRepository.deleteAllByUserId(userId);
+		Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent())
+        	postRepository.deleteAllByUserId(userId);
+        else
+        	throw new NoSuchElementException("Invalid user ID provided");
+	}
+	
+	private boolean isValidPost(Post post) {
+		if (post == null || post.getTitle() == null || post.getDescription() == null || post.getUser() == null)
+	        return false;
+		else if (post.getTitle().isEmpty() || post.getDescription().isEmpty())
+	        return false;
+		else if (post.getTitle().length() > 50 || post.getDescription().length() > 2000)
+	    	return false;
+
+	    return true;
 	}
 
+	private boolean isValidUser(User user) {
+		if (user == null || user.getUsername() == null || user.getEmail() == null || user.getPassword() == null)
+	        return false;
+		else if (user.getUsername().isEmpty() || user.getEmail().isEmpty() || user.getPassword().isEmpty())
+	        return false;
+		else if (user.getUsername().length() > 24 || user.getEmail().length() > 50 || user.getPassword().length() > 50)
+	    	return false;
+
+	    return true;
+	}
 }

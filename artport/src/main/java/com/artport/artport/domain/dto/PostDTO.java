@@ -1,42 +1,49 @@
 package com.artport.artport.domain.dto;
 
-import com.artport.artport.domain.entities.User;
+public class PostDTO {
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+	Long postId;
+	UserDTO user;
+	String title;
+	String description;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-public class PostDto {
-
-	private Long postId;
-	private User user;
-	private String title;
-	private String description;
+	public PostDTO(Long postId, UserDTO user, String title, String description) {
+		this.postId = postId;
+		this.user = user;
+		this.title = title;
+		this.description = description;
+	}
 	
+	public PostDTO() {}
+
 	public Long getId() {
 		return postId;
 	}
+
 	public void setId(Long postId) {
 		this.postId = postId;
 	}
-	public User getUser() {
+
+	public UserDTO getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+
+	public void setUserDTO(UserDTO user) {
 		this.user = user;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}

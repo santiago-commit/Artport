@@ -17,10 +17,7 @@ public interface UserService {
 	
 	void deleteUser(Long userId);
 
-
 	List<Post> getPostsByUserId(Long userId);
-	
-	Post getPostByUserId(Long userId, Long postId);
 	
 	Post createPost(Long userId, Post post);
 	

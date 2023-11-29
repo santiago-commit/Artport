@@ -2,17 +2,16 @@ package com.artport.artport.services;
 
 import java.util.List;
 
+import com.artport.artport.domain.dto.PostDTO;
 import com.artport.artport.domain.entities.Post;
 
 public interface PostService {
 
 	List<Post> getPosts();
 	
-	Post getPost(Long postId);
-
-	Post createPost(Post post);
+	PostDTO getPost(Long postId);
 	
 	Post updatePost(Long postId, Post post);
 	
-	void deletePost(Long postId);
+	boolean deletePost(Long postId);
 }
