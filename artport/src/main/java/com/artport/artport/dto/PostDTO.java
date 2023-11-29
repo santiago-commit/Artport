@@ -1,4 +1,4 @@
-package com.artport.artport.domain.dto;
+package com.artport.artport.dto;
 
 public class PostDTO {
 

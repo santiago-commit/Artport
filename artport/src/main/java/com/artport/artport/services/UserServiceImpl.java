@@ -6,8 +6,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.artport.artport.domain.entities.Post;
-import com.artport.artport.domain.entities.User;
+import com.artport.artport.entities.Post;
+import com.artport.artport.entities.User;
 import com.artport.artport.repositories.PostRepository;
 import com.artport.artport.repositories.UserRepository;
 

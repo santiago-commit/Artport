@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.artport.artport.domain.dto.PostDTO;
-import com.artport.artport.domain.dto.UserDTO;
-import com.artport.artport.domain.entities.Post;
-import com.artport.artport.domain.entities.User;
+import com.artport.artport.dto.PostDTO;
+import com.artport.artport.dto.UserDTO;
+import com.artport.artport.entities.Post;
+import com.artport.artport.entities.User;
 import com.artport.artport.services.UserService;
 
 @RestController

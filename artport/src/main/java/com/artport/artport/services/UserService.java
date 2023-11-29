@@ -2,8 +2,8 @@ package com.artport.artport.services;
 
 import java.util.List;
 
-import com.artport.artport.domain.entities.Post;
-import com.artport.artport.domain.entities.User;
+import com.artport.artport.entities.Post;
+import com.artport.artport.entities.User;
 
 public interface UserService {
 	

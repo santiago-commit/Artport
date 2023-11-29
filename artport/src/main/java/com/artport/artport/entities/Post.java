@@ -1,4 +1,4 @@
-package com.artport.artport.domain.entities;
+package com.artport.artport.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

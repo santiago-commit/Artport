@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
-import com.artport.artport.domain.dto.PostDTO;
-import com.artport.artport.domain.dto.UserDTO;
-import com.artport.artport.domain.entities.Post;
-import com.artport.artport.domain.entities.User;
+import com.artport.artport.dto.PostDTO;
+import com.artport.artport.dto.UserDTO;
+import com.artport.artport.entities.Post;
+import com.artport.artport.entities.User;
 import com.artport.artport.repositories.PostRepository;
 
 @Component
