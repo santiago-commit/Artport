@@ -4,14 +4,16 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.artport.artport.entities.Post;
 import com.artport.artport.entities.User;
 import com.artport.artport.repositories.PostRepository;
 import com.artport.artport.repositories.UserRepository;
 
-@Component
+import jakarta.transaction.Transactional;
+
+@Service
 public class UserServiceImpl implements UserService {
 	
 	private UserRepository userRepository;
@@ -106,10 +108,15 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	@Transactional
 	public void deletePosts(Long userId) {
 		Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent())
-        	postRepository.deleteAllByUserId(userId);
+        if (optionalUser.isPresent()) {
+        	//List<Post> posts = postRepository.findByUserId(userId);
+        	//for(Post post : posts)
+        	//	postRepository.delete(post);
+        	postRepository.deleteByUserId(userId);
+        }
         else
         	throw new NoSuchElementException("Invalid user ID provided");
 	}

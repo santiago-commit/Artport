@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.artport.artport.dto.PostDTO;
 import com.artport.artport.dto.UserDTO;
@@ -12,7 +12,7 @@ import com.artport.artport.entities.Post;
 import com.artport.artport.entities.User;
 import com.artport.artport.repositories.PostRepository;
 
-@Component
+@Service
 public class PostServiceImpl implements PostService {
 	
 	PostRepository postRepository;

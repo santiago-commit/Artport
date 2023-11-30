@@ -148,6 +148,9 @@ public class UserController {
 		catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
+		//catch (OptimisticLockingFailureException e) {
+		//	return ResponseEntity.notFound().build();
+		//}
 	}
 
 }
