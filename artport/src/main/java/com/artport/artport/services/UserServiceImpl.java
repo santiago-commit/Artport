@@ -40,8 +40,10 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public User createUser(User user) {
-		if (isValidUser(user))
+		if (isValidUser(user)) {
+			user.setHierarchy((short) 0);
 			return userRepository.save(user);
+		}
 		else
 			throw new IllegalArgumentException("Invalid user data");
 	}

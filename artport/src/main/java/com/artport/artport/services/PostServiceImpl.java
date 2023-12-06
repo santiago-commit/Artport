@@ -6,10 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.artport.artport.dto.PostDTO;
-import com.artport.artport.dto.UserDTO;
 import com.artport.artport.entities.Post;
-import com.artport.artport.entities.User;
 import com.artport.artport.repositories.PostRepository;
 
 @Service
@@ -27,11 +24,13 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostDTO getPost(Long postId) {
-		Post post = postRepository.getReferenceById(postId);
-		User user = post.getUser();
-		UserDTO userDto = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getHierarchy());
-		return new PostDTO(post.getId(), userDto, post.getTitle(), post.getDescription());
+	public Post getPost(Long postId) {
+		//return postRepository.getReferenceById(postId);
+		Optional<Post> optionalPost = postRepository.findById(postId);
+		if (optionalPost.isPresent())
+			return optionalPost.get();
+        else
+        	throw new NoSuchElementException("Invalid post ID provided");
 	}
 
 	@Override

@@ -52,8 +52,8 @@ public class UserController {
 	public ResponseEntity<UserDTO> getUser(@PathVariable Long userId) {
 		try {
 			User user = userService.getUser(userId);
-			UserDTO userDto = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getHierarchy());
-			return ResponseEntity.ok(userDto);
+			UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getHierarchy());
+			return ResponseEntity.ok(userDTO);
 		}
 		catch(NoSuchElementException e) {
 			return ResponseEntity.notFound().build();

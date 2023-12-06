@@ -1,5 +1,6 @@
 package com.artport.artport.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.artport.artport.dto.PostDTO;
+import com.artport.artport.dto.UserDTO;
 import com.artport.artport.entities.Post;
+import com.artport.artport.entities.User;
 import com.artport.artport.services.PostService;
 
 @RestController
@@ -27,25 +30,51 @@ public class PostController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Post>> getPosts() {
+	public ResponseEntity<List<PostDTO>> getPosts() {
 		List<Post> posts = postService.getPosts();
-		return ResponseEntity.ok(posts);
+		
+		List<PostDTO> postDTOs = new ArrayList<>();
+		
+		for(Post post : posts) {
+			PostDTO postDTO = new PostDTO();
+			postDTO.setId(post.getId());
+			postDTO.setTitle(post.getTitle());
+			postDTO.setDescription(post.getDescription());
+			
+			User user = post.getUser();
+			UserDTO userDTO = new UserDTO();
+			userDTO.setId(user.getId());
+			userDTO.setUsername(user.getUsername());
+			userDTO.setEmail(user.getEmail());
+			userDTO.setHierarchy(user.getHierarchy());
+			
+			postDTO.setUserDTO(userDTO);
+		}
+		return ResponseEntity.ok(postDTOs);
 	}
 	
 	@GetMapping("/{postId}")
 	public ResponseEntity<PostDTO> getPost(@PathVariable Long postId) {
-		PostDTO postDto = postService.getPost(postId);
-		if (postDto != null)
-			return ResponseEntity.ok(postDto);
-		else
+		try {
+			Post post = postService.getPost(postId);
+			User user = post.getUser();
+			UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getHierarchy());
+			PostDTO postDTO = new PostDTO(post.getId(), userDTO, post.getTitle(), post.getDescription());
+			return ResponseEntity.ok(postDTO);
+		}
+		catch(NoSuchElementException e) {
 			return ResponseEntity.notFound().build();
+		}
 	}
 	
 	@PutMapping("/{postId}")
-	public ResponseEntity<Post> updatePost(@PathVariable Long postId, @RequestBody Post post) {
+	public ResponseEntity<PostDTO> updatePost(@PathVariable Long postId, @RequestBody Post post) {
 		try {
 			Post updatedPost = postService.updatePost(postId, post);
-			return ResponseEntity.ok(updatedPost);
+			User user = updatedPost.getUser();
+			UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getHierarchy());
+			PostDTO updatedPostDTO = new PostDTO(updatedPost.getId(), userDTO, updatedPost.getTitle(), updatedPost.getDescription());
+			return ResponseEntity.ok(updatedPostDTO);
 		}
 		catch (NoSuchElementException e) {
 			return ResponseEntity.notFound().build();		
