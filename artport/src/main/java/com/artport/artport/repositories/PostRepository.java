@@ -13,7 +13,7 @@ import com.artport.artport.entities.Post;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-	List<Post> findByUserId(Long userId);
+	List<Post> findByUserUserId(Long userId);
 
 	@Modifying
 	@Query("DELETE FROM Post p WHERE p.user.userId = :userId")

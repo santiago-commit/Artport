@@ -1,8 +1,6 @@
 package com.artport.artport.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,138 +17,67 @@ import com.artport.artport.dto.UserDTO;
 import com.artport.artport.entities.Post;
 import com.artport.artport.entities.User;
 import com.artport.artport.services.UserService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/users")
 public class UserController {
 	
-	private UserService userService;
+	private final UserService userService;
 	
-	public UserController(UserService userService) {
+	public UserController(final UserService userService) {
 		this.userService = userService;
 	}
 	
 	@GetMapping
 	public ResponseEntity<List<UserDTO>> getUsers() {
-		List<User> users = userService.getUsers();
-		
-		List<UserDTO> userDTOs = new ArrayList<>();
-
-	    for (User user : users) {
-	    	UserDTO userDTO = new UserDTO();
-	    	userDTO.setId(user.getId());
-	    	userDTO.setUsername(user.getUsername());
-	    	userDTO.setEmail(user.getEmail());
-	    	userDTO.setHierarchy(user.getHierarchy());
-	    	userDTOs.add(userDTO);
-	    }
-	    
+		List<UserDTO> userDTOs = userService.getUsers();
 		return ResponseEntity.ok(userDTOs);
 	}
 	
 	@GetMapping("/{userId}")
 	public ResponseEntity<UserDTO> getUser(@PathVariable Long userId) {
-		try {
-			User user = userService.getUser(userId);
-			UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getHierarchy());
-			return ResponseEntity.ok(userDTO);
-		}
-		catch(NoSuchElementException e) {
-			return ResponseEntity.notFound().build();
-		}
+                UserDTO userDTO = userService.getUser(userId);
+                return ResponseEntity.ok(userDTO);
 	}
 	
 	@PostMapping
 	public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
-		try {
-			User createdUser = userService.createUser(user);
-			UserDTO createdUserDTO = new UserDTO(createdUser.getId(), createdUser.getUsername(), createdUser.getEmail(), createdUser.getHierarchy());
-			return ResponseEntity.ok(createdUserDTO);
-		}
-		catch(IllegalArgumentException e) {
-			return ResponseEntity.badRequest().build();
-		}
+                UserDTO createdUserDTO = userService.createUser(user);
+                return ResponseEntity.ok(createdUserDTO);
 	}
 	
 	@PutMapping("/{userId}")
-	public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody User user) {		
-		try {
-			User updatedUser = userService.updateUser(userId, user);
-			UserDTO updatedUserDTO = new UserDTO(updatedUser.getId(), updatedUser.getUsername(), updatedUser.getEmail(), updatedUser.getHierarchy());
-			return ResponseEntity.ok(updatedUserDTO);
-		}
-		catch (NoSuchElementException e) {
-			return ResponseEntity.notFound().build();		
-		}
-		catch (IllegalArgumentException e) {
-			return ResponseEntity.badRequest().build();
-		}
+	public ResponseEntity<UserDTO> updateUser(@PathVariable Long userId, @RequestBody UserDTO userDTO) {		
+                UserDTO updatedUserDTO = userService.updateUser(userId, userDTO);
+                return ResponseEntity.ok(updatedUserDTO);
 	}
 	
 	@DeleteMapping("/{userId}")
-	public ResponseEntity<Void> deleteUser(@PathVariable Long userId) {
-		try {
-            userService.deleteUser(userId);
-            return ResponseEntity.ok(null);
-        }
-		catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
+	public ResponseEntity deleteUser(@PathVariable Long userId) {
+                userService.deleteUser(userId);
+                return ResponseEntity.ok(null);
 	}
 	
 	//POSTS HANDLING
 	@GetMapping("/{userId}/posts")
 	public ResponseEntity<List<PostDTO>> getPosts(@PathVariable Long userId) {
-		List<Post> posts = userService.getPostsByUserId(userId);
-		List<PostDTO> postDTOs = new ArrayList<>();
-
-	    for (Post post : posts) {
-	    	PostDTO postDTO = new PostDTO();
-	    	postDTO.setId(post.getId());
-	    	
-	    	User user = post.getUser();
-	    	UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getHierarchy());
-	    	postDTO.setUserDTO(userDTO);
-	    	
-	    	postDTO.setTitle(post.getTitle());
-	    	postDTO.setDescription(post.getDescription());
-	    	postDTOs.add(postDTO);
-	    }
+		List<PostDTO> postDTOs = userService.getPostsByUserId(userId);
 		return ResponseEntity.ok(postDTOs);
 		
 	}
 
 	@PostMapping("/{userId}/posts")
 	public ResponseEntity<PostDTO> createPost(@PathVariable Long userId, @RequestBody Post post) {
-		try {
-			Post createdPost = userService.createPost(userId, post);
-
-			User user = createdPost.getUser();
-			UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getHierarchy());
-			
-			PostDTO createdPostDTO = new PostDTO(createdPost.getId(), userDTO, createdPost.getTitle(), createdPost.getDescription());
-			return ResponseEntity.ok(createdPostDTO);
-		}
-		catch(IllegalArgumentException e) {
-			return ResponseEntity.badRequest().build();
-		}
-		catch (NoSuchElementException e) {
-			return ResponseEntity.notFound().build();
-		}
+                PostDTO createdPostDTO = userService.createPost(userId, post);
+                return ResponseEntity.ok(createdPostDTO);
 	}
 	
 	@DeleteMapping("/{userId}/posts")
-	public ResponseEntity<Void> deletePosts(@PathVariable Long userId) {
-		try {
-			userService.deletePosts(userId);
-            return ResponseEntity.ok(null);
-        }
-		catch (NoSuchElementException e) {
-            return ResponseEntity.notFound().build();
-        }
-		//catch (OptimisticLockingFailureException e) {
-		//	return ResponseEntity.notFound().build();
-		//}
+	public ResponseEntity deletePosts(@PathVariable Long userId) {
+                userService.deletePosts(userId);
+                return ResponseEntity.ok(null);
 	}
 
 }
