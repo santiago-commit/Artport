@@ -17,7 +17,10 @@ import com.artport.artport.dto.UserDTO;
 import com.artport.artport.entities.Post;
 import com.artport.artport.entities.User;
 import com.artport.artport.services.UserService;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -69,15 +72,19 @@ public class UserController {
 	}
 
 	@PostMapping("/{userId}/posts")
-	public ResponseEntity<PostDTO> createPost(@PathVariable Long userId, @RequestBody Post post) {
-                PostDTO createdPostDTO = userService.createPost(userId, post);
+	public ResponseEntity<PostDTO> createPost(
+                @PathVariable Long userId, 
+                @RequestPart("post") Post post, 
+                @RequestPart("file") List<MultipartFile> files
+                //, @RequestPart("file_description") String description
+        ) {
+                PostDTO createdPostDTO = userService.createPost(userId, post, files);
                 return ResponseEntity.ok(createdPostDTO);
-	}
+        }
 	
 	@DeleteMapping("/{userId}/posts")
 	public ResponseEntity deletePosts(@PathVariable Long userId) {
                 userService.deletePosts(userId);
                 return ResponseEntity.ok(null);
 	}
-
 }

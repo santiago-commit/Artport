@@ -1,7 +1,7 @@
 package com.artport.artport.dto;
 
 public record UserDTO (
-	Long userId,
+	Long id,
 	String username,
 	String email,
 	Short hierarchy

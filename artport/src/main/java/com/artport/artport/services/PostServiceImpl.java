@@ -78,7 +78,7 @@ public class PostServiceImpl implements PostService {
 	}
 	
 	private boolean isValidPost(Post post) {
-		if (post == null || post.getTitle() == null || post.getDescription() == null || post.getPostId() == null || post.getUser() == null)
+		if (post == null || post.getTitle() == null || post.getDescription() == null || post.getId() == null || post.getUser() == null)
                     return false;
 		else if (post.getTitle().isEmpty() || post.getDescription().isEmpty())
                     return false;

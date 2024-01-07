@@ -21,10 +21,9 @@ public class Post {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
-        @Column(name = "post_id")
-	private Long postId;
+	private Long id;
 	@ManyToOne
-	@JoinColumn(name = "userId")
+	@JoinColumn(name = "user_id")
 	private User user;
 	private String title;
 	private String description;

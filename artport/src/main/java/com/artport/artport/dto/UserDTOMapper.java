@@ -9,7 +9,7 @@ public class UserDTOMapper implements Function<User, UserDTO> {
 
     @Override
     public UserDTO apply(User user) {
-        return new UserDTO(user.getUserId(), user.getUsername(), user.getEmail(), user.getHierarchy());
+        return new UserDTO(user.getId(), user.getUsername(), user.getEmail(), user.getHierarchy());
     }
     
 }

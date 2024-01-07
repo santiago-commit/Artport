@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.artport.artport.entities.Post;
 import com.artport.artport.entities.User;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
 	
@@ -21,7 +22,7 @@ public interface UserService {
 
 	List<PostDTO> getPostsByUserId(Long userId);
 	
-	PostDTO createPost(Long userId, Post post);
+	PostDTO createPost(Long userId, Post post, List<MultipartFile> files);
 	
 	void deletePosts(Long userId);
 	

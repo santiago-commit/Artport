@@ -1,7 +1,7 @@
 package com.artport.artport.dto;
 
 public record PostDTO (
-	Long postId,
+	Long id,
 	UserDTO user,
 	String title,
 	String description
